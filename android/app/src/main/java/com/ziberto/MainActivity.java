@@ -1,4 +1,4 @@
-package com.maangos.user;
+package com.lifegracious.users;
 
 import io.flutter.embedding.android.FlutterActivity;
 

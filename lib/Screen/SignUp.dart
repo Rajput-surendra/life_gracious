@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-
 import 'package:eshop_multivendor/Helper/String.dart';
 import 'package:eshop_multivendor/Helper/cropped_container.dart';
 import 'package:eshop_multivendor/Provider/SettingProvider.dart';
@@ -21,6 +20,9 @@ import '../Helper/Constant.dart';
 import '../Helper/Session.dart';
 
 class SignUp extends StatefulWidget {
+  final mobile, countryCode;
+
+  const SignUp({Key? key, this.mobile, this.countryCode}) : super(key: key);
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
@@ -85,7 +87,8 @@ class _SignUpPageState extends State<SignUp> with TickerProviderStateMixin {
   Future<void> checkNetwork() async {
     bool avail = await isNetworkAvailable();
     if (avail) {
-      if (referCode != null) getRegisterUser();
+      // if (referCode != null) getRegisterUser();
+      getRegisterUser();
     } else {
       Future.delayed(Duration(seconds: 2)).then((_) async {
         if (mounted)
@@ -173,15 +176,24 @@ class _SignUpPageState extends State<SignUp> with TickerProviderStateMixin {
   Future<void> getRegisterUser() async {
     try {
       var data = {
-        MOBILE: mobile,
-        NAME: name,
-        EMAIL: email,
+        // MOBILE: mobile,
+        // NAME: name,
+        // EMAIL: email,
+        // PASSWORD: password,
+        // COUNTRY_CODE: countrycode,
+        // REFERCODE: referCode,
+        // FRNDCODE: friendCode
+        "name": name,
+        "email": email ?? "",
         PASSWORD: password,
-        COUNTRY_CODE: countrycode,
-        REFERCODE: referCode,
-        FRNDCODE: friendCode
+        COUNTRY_CODE: widget.countryCode,
+        "mobile": widget.mobile ?? "",
+        /*"referral_code": referCode ?? "",*/
+        // "alternate_number": altNoController.text,
+        "friends_code": friendCode ?? ""
       };
 
+      print(data);
       Response response =
           await post(getUserSignUpApi, body: data, headers: headers)
               .timeout(Duration(seconds: timeOut));
@@ -189,6 +201,9 @@ class _SignUpPageState extends State<SignUp> with TickerProviderStateMixin {
       var getdata = json.decode(response.body);
       bool error = getdata["error"];
       String? msg = getdata["message"];
+      print(getUserSignUpApi);
+
+      print(getdata);
       await buttonController!.reverse();
       if (!error) {
         setSnackbar(getTranslated(context, 'REGISTER_SUCCESS_MSG')!);
@@ -198,7 +213,7 @@ class _SignUpPageState extends State<SignUp> with TickerProviderStateMixin {
         name = i[USERNAME];
         email = i[EMAIL];
         mobile = i[MOBILE];
-        //countrycode=i[COUNTRY_CODE];
+        countrycode=i[COUNTRY_CODE];
         CUR_USERID = id;
 
         // CUR_USERNAME = name;

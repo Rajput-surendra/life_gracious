@@ -1,124 +1,41 @@
 {
   "project_info": {
-    "project_number": "239785299733",
-    "firebase_url": "https://maangos-default-rtdb.firebaseio.com",
-    "project_id": "maangos",
-    "storage_bucket": "maangos.appspot.com"
+    "project_number": "354099876585",
+    "project_id": "lifegracious-da38f",
+    "storage_bucket": "lifegracious-da38f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:239785299733:android:d02bc6540c1be06259631c",
+        "mobilesdk_app_id": "1:354099876585:android:76605f0e36853707e31678",
         "android_client_info": {
-          "package_name": "com.maangos.deliveryboy"
+          "package_name": "com.lifegracious.users"
         }
       },
       "oauth_client": [
         {
-          "client_id": "239785299733-k81oqlva4i2scuq9i39u8oj4edajb62v.apps.googleusercontent.com",
+          "client_id": "354099876585-hrqs6jjk4a8hjufn4e8prpbmbga39a6d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.maangos.deliveryboy",
-            "certificate_hash": "7bc60690c3b7437d2c13da6abc0539fe851224c7"
+            "package_name": "com.lifegracious.users",
+            "certificate_hash": "3d73583ef7da3fa127cde40d2a5124520ff792b0"
           }
         },
         {
-          "client_id": "239785299733-oho73dhs3ct0vo2bk48bnhac87vdh19b.apps.googleusercontent.com",
+          "client_id": "354099876585-nu78ipjkhecukhneh7fm9s3vnvvc1cum.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDh3R8D5WJ2je78L2dMskeX81CCuHY04LI"
+          "current_key": "AIzaSyDM44ZG8lPfbZXv6yNi6BDRj_DXkHwyZTw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "239785299733-oho73dhs3ct0vo2bk48bnhac87vdh19b.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:239785299733:android:92e8e9c432769f1659631c",
-        "android_client_info": {
-          "package_name": "com.maangos.seller"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "239785299733-37t3b1bm6l80sk44hkle44ehfh3ejjta.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.maangos.seller",
-            "certificate_hash": "7bc60690c3b7437d2c13da6abc0539fe851224c7"
-          }
-        },
-        {
-          "client_id": "239785299733-oho73dhs3ct0vo2bk48bnhac87vdh19b.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDh3R8D5WJ2je78L2dMskeX81CCuHY04LI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "239785299733-oho73dhs3ct0vo2bk48bnhac87vdh19b.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:239785299733:android:dc637797cd22d3a859631c",
-        "android_client_info": {
-          "package_name": "com.maangos.user"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "239785299733-7ch0gnkm73vtqcq4l1og3a09i7n8ifsf.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.maangos.user",
-            "certificate_hash": "3bfb73ab5150ad7a777dca97ce2d5262a1d5bb6b"
-          }
-        },
-        {
-          "client_id": "239785299733-a22teru83t7hih50pl0iblbbg8pqs43f.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.maangos.user",
-            "certificate_hash": "025fbc6e09bc0002a5504b74292b416ac4d9cb99"
-          }
-        },
-        {
-          "client_id": "239785299733-oho73dhs3ct0vo2bk48bnhac87vdh19b.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDh3R8D5WJ2je78L2dMskeX81CCuHY04LI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "239785299733-oho73dhs3ct0vo2bk48bnhac87vdh19b.apps.googleusercontent.com",
+              "client_id": "354099876585-nu78ipjkhecukhneh7fm9s3vnvvc1cum.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

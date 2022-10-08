@@ -1860,6 +1860,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           _title(),
+                          _shortDesc(),
                           (widget.model!.rating! == "0" ||
                                   widget.model!.rating! == "0.0" ||
                                   widget.model!.rating! == "0.00")
@@ -1867,7 +1868,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                               : _rate(),
                           _price(widget.model!.selVarient, true),
                           _offPrice(widget.model!.selVarient),
-                          _shortDesc(),
+
                         ],
                       ),
                     ),
@@ -2169,8 +2170,9 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                             backgroundColor:
                                 Theme.of(context).colorScheme.btnColor),
                         onPressed: () {
-                          String qty = ((int.parse(qtyController.text)) +
-                                  (int.parse(widget.model!.qtyStepSize!)))
+                          String qty = ((int.parse(qtyController.text))+
+                                   (int.parse(widget.model!.qtyStepSize!))
+                          )
                               .toString();
                           addToCart(qty, true);
                         },
@@ -2587,11 +2589,15 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
                   .timeout(Duration(seconds: timeOut));
 
           var getdata = json.decode(response.body);
+
           log("${StackTrace.current} ${response.body}");
 
           bool error = getdata["error"];
           // String msg = getdata["message"];
 
+          print(getProductApi);
+          print(parameter);
+          print(getdata);
           notificationisgettingdata = false;
           if (notificationoffset == 0) notificationisnodata = error;
 
@@ -2843,7 +2849,7 @@ class StateItem extends State<ProductDetail> with TickerProviderStateMixin {
             widget.model!.shortDescription!.isNotEmpty
         ? Padding(
             padding: const EdgeInsetsDirectional.only(
-                start: 8, end: 8, top: 8, bottom: 5),
+                start: 8, end: 8, top: 5, bottom: 5),
             child: Text(
               widget.model!.shortDescription!,
               style: Theme.of(context).textTheme.subtitle2,

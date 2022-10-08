@@ -21,12 +21,13 @@ import 'SignUp.dart';
 
 class VerifyOtp extends StatefulWidget {
   final String? mobileNumber, countryCode, title;
+  final otp;
 
   VerifyOtp(
       {Key? key,
       required String this.mobileNumber,
       this.countryCode,
-      this.title})
+      this.title, this.otp})
       : assert(mobileNumber != null),
         super(key: key);
 
@@ -233,46 +234,100 @@ class _MobileOTPState extends State<VerifyOtp> with TickerProviderStateMixin {
     Response response = await post(getOtpVerify, body: data, headers: headers)
         .timeout(Duration(seconds: timeOut));
     var getdata = json.decode(response.body);
-    print(getdata);
+    print(getOtpVerify.toString());
+    print(data.toString());
     bool error = getdata["error"];
     String? msg = getdata["message"];
     await buttonController!.reverse();
-    if (error == true) {
-
+    if(error == true){
       var i = getdata["data"];
-      id = i[ID];
-      username = i[USERNAME];
       email = i[EMAIL];
-      mobile = i[MOBILE];
-      city = i[CITY];
-      area = i[AREA];
-      address = i[ADDRESS];
-      pincode = i[PINCODE];
-      latitude = i[LATITUDE];
-      longitude = i[LONGITUDE];
-      image = i[IMAGE];
+      print("EMAIL====== $email");
+      if(email != null){
+        id = i[ID];
+        username = i[USERNAME];
+        email = i[EMAIL];
+        mobile = i[MOBILE];
+        city = i[CITY];
+        area = i[AREA];
+        address = i[ADDRESS];
+        pincode = i[PINCODE];
+        latitude = i[LATITUDE];
+        longitude = i[LONGITUDE];
+        image = i[IMAGE];
+        CUR_USERID = id;
+        // CUR_USERNAME = username;
+        UserProvider userProvider =
+        Provider.of<UserProvider>(this.context, listen: false);
+        userProvider.setName(username ?? "");
+        userProvider.setEmail(email ?? "");
+        userProvider.setProfilePic(image ?? "");
 
-      CUR_USERID = id;
-      // CUR_USERNAME = username;
+        SettingProvider settingProvider =
+        Provider.of<SettingProvider>(context, listen: false);
 
-      UserProvider userProvider =
-          Provider.of<UserProvider>(this.context, listen: false);
-      userProvider.setName(username ?? "");
-      userProvider.setEmail(email ?? "");
-      userProvider.setProfilePic(image ?? "");
+        settingProvider.saveUserDetail(id!, username, email, mobile, city, area,
+            address, pincode, latitude, longitude, image, context);
+        setPrefrenceBool(ISFIRSTTIME, true);
+        Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
+      }
 
-      SettingProvider settingProvider =
-          Provider.of<SettingProvider>(context, listen: false);
+      else {
+        Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SignUp(
+                        mobile: widget.mobileNumber,
+                        countryCode: "91",
+                      )),
+                      (route) => false);
+      }
 
-      settingProvider.saveUserDetail(id!, username, email, mobile, city, area,
-          address, pincode, latitude, longitude, image, context);
-      setPrefrenceBool(ISFIRSTTIME, true);
-      Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
+      // if(email != null){
+      //   id = i[ID];
+      //   username = i[USERNAME];
+      //   email = i[EMAIL];
+      //   mobile = i[MOBILE];
+      //   city = i[CITY];
+      //   area = i[AREA];
+      //   address = i[ADDRESS];
+      //   pincode = i[PINCODE];
+      //   latitude = i[LATITUDE];
+      //   longitude = i[LONGITUDE];
+      //   image = i[IMAGE];
+      //   CUR_USERID = id;
+      //   // CUR_USERNAME = username;
+      //
+      //   UserProvider userProvider =
+      //   Provider.of<UserProvider>(this.context, listen: false);
+      //   userProvider.setName(username ?? "");
+      //   userProvider.setEmail(email ?? "");
+      //   userProvider.setProfilePic(image ?? "");
+      //
+      //   SettingProvider settingProvider =
+      //   Provider.of<SettingProvider>(context, listen: false);
+      //
+      //   settingProvider.saveUserDetail(id!, username, email, mobile, city, area,
+      //       address, pincode, latitude, longitude, image, context);
+      //   setPrefrenceBool(ISFIRSTTIME, true);
+      //   Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
+      // }
+      // else {
+      //   Navigator.pushAndRemoveUntil(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => SignUp(
+      //             mobile: widget.mobileNumber,
+      //           )),
+      //           (route) => false);
+      // }
       // Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyOtp(mobileNumber: mobile.toString())));
     } else {
       setSnackbar(msg!);
     }
   }
+
+
 
   void _onFormSubmitted() async {
     String code = otp!.trim();
@@ -556,7 +611,7 @@ class _MobileOTPState extends State<VerifyOtp> with TickerProviderStateMixin {
         width: 100,
         height: 100,
         child: Image.asset(
-          'assets/app_logo.jpeg',
+          'assets/images/loginlogo.png',
         ),
       ),
     );

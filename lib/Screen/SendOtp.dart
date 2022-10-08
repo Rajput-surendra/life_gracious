@@ -140,6 +140,9 @@ class _SendOtpState extends State<SendOtp> with TickerProviderStateMixin {
       Response response =
           await post(getVerifyUserApi, body: data, headers: headers)
               .timeout(Duration(seconds: timeOut));
+      print(getVerifyUserApi.toString());
+      print(data.toString());
+
 
       var getdata = json.decode(response.body);
 
@@ -152,7 +155,8 @@ class _SendOtpState extends State<SendOtp> with TickerProviderStateMixin {
 
       if (widget.title == getTranslated(context, 'SEND_OTP_TITLE')) {
         if (!error!) {
-          setSnackbar(msg!);
+
+          setSnackbar(getdata["data"].toString());
 
           // settingsProvider.setPrefrence(MOBILE, mobile!);
           // settingsProvider.setPrefrence(COUNTRY_CODE, countrycode!);
@@ -285,6 +289,7 @@ class _SendOtpState extends State<SendOtp> with TickerProviderStateMixin {
 
   Widget setMono() {
     return TextFormField(
+      maxLength: 10,
         keyboardType: TextInputType.number,
         controller: mobileController,
         style: Theme.of(context).textTheme.subtitle2!.copyWith(
@@ -299,9 +304,10 @@ class _SendOtpState extends State<SendOtp> with TickerProviderStateMixin {
           mobile = value;
         },
         decoration: InputDecoration(
+          counterText: '',
           hintText: getTranslated(context, 'MOBILEHINT_LBL'),
           hintStyle: Theme.of(context).textTheme.subtitle2!.copyWith(
-              color: Theme.of(context).colorScheme.fontColor,
+              color: colors.primary,
               fontWeight: FontWeight.normal),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
@@ -563,7 +569,7 @@ class _SendOtpState extends State<SendOtp> with TickerProviderStateMixin {
         width: 100,
         height: 100,
         child: Image.asset(
-          'assets/app_logo.jpeg',
+          'assets/images/loginlogo.png',
         ),
       ),
     );

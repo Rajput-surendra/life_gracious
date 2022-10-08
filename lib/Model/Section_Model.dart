@@ -141,7 +141,7 @@ class Product {
       estimated_time,
       food_person,
       open_close_status,
-      address;
+      address, product_time;
 
   // String historyList;
 
@@ -203,6 +203,7 @@ class Product {
       this.estimated_time,
       this.food_person,
       this.open_close_status,
+      this.product_time,
       this.address});
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -292,6 +293,7 @@ class Product {
       food_person: json["food_person"],
       address: json["address"],
       open_close_status: json["open_close_status"],
+      product_time: json["product_time"]
       // totalImg: tImg,
       // totalReviewImg: json[REV_IMG][TOTALIMGREVIEW],
       // productRating: reviewList

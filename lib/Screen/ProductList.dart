@@ -617,6 +617,8 @@ class StateProduct extends State<ProductList> with TickerProviderStateMixin {
                                       ],
                                     )
                                   : Container(),
+                              model.product_time !=""?
+                              Text("Product Time : ${model.product_time}"):Container()
                             ],
                           ),
                         ),

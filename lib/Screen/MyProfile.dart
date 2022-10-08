@@ -1189,7 +1189,7 @@ class StateProfile extends State<MyProfile> with TickerProviderStateMixin {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.fontColor,
+                  color: Theme.of(context).colorScheme.lightWhite,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),

@@ -37,16 +37,12 @@ class _SignInUpAccState extends State<SignInUpAcc> {
 
   _subLogo() {
     return Padding(
-      padding: EdgeInsetsDirectional.only(top: 30.0),
-      child: Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.asset(
-            'assets/app_logo.jpeg',
-             scale: 10),
-        ),
+      padding: EdgeInsetsDirectional.only(top: 20.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.asset(
+          'assets/images/splash.png',
+           scale: 8),
       )
     );
   }

@@ -176,12 +176,14 @@ class _LoginPageState extends State<Login> with TickerProviderStateMixin {
   }
 
   Future<void> getLoginUser() async {
-    var data = {MOBILE: mobile , FCM_ID : token};
+    var data = {MOBILE: mobile , FCM_ID : ""};
     Response response =
         await post(getUserLoginApi, body: data, headers: headers)
             .timeout(Duration(seconds: timeOut));
     var getdata = json.decode(response.body);
+    print(getUserLoginApi.toString());
 print(getdata);
+print(data.toString());
     bool error = getdata["error"];
     String? msg = getdata["message"];
     dynamic getData = getdata["data"];
@@ -194,7 +196,7 @@ print(getdata);
       // email = i[EMAIL];
       // mobile = i[MOBILE];
       // city = i[CITY];
-      // area = i[AREA];
+      // area = i[AREA];`
       // address = i[ADDRESS];
       // pincode = i[PINCODE];
       // latitude = i[LATITUDE];
@@ -217,7 +219,12 @@ print(getdata);
       //     address, pincode, latitude, longitude, image, context);
 
       // Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyOtp(mobileNumber: mobile.toString())));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>
+          VerifyOtp(
+              mobileNumber: mobile.toString(),
+            otp: getData["otp"].toString(),
+            title: getTranslated(context, 'SIGNIN_LBL'),
+          )));
     } else {
       setSnackbar(msg!);
     }
@@ -253,12 +260,14 @@ print(getdata);
   }
 
   setMobileNo() {
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.85,
       padding: EdgeInsets.only(
         top: 30.0,
       ),
       child: TextFormField(
+        maxLength: 10,
         onFieldSubmitted: (v) {
           FocusScope.of(context).requestFocus(passFocus);
         },
@@ -277,16 +286,18 @@ print(getdata);
             getTranslated(context, 'VALID_MOB')),
         onSaved: (String? value) {
           mobile = value;
+
         },
         decoration: InputDecoration(
+          counterText: '',
           prefixIcon: Icon(
             Icons.phone_android,
-            color: Theme.of(context).colorScheme.fontColor,
+            color: colors.primary,
             size: 20,
           ),
           hintText: "Mobile Number",
           hintStyle: Theme.of(this.context).textTheme.subtitle2!.copyWith(
-              color: Theme.of(context).colorScheme.fontColor,
+              color: colors.primary,
               fontWeight: FontWeight.normal),
           filled: true,
           fillColor: Theme.of(context).colorScheme.white,
@@ -302,7 +313,6 @@ print(getdata);
             minWidth: 40,
             maxHeight: 20,
           ),
-          
           enabledBorder: UnderlineInputBorder(
             borderSide:
                 BorderSide(color: Theme.of(context).colorScheme.lightBlack2),
@@ -644,7 +654,7 @@ print(getdata);
         width: 100,
         height: 100,
         child: Image.asset(
-          'assets/app_logo.jpeg',
+          'assets/images/loginlogo.png',
         ),
       ),
     );

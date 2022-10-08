@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eshop_multivendor/Helper/ApiBaseHelper.dart';
 import 'package:eshop_multivendor/Helper/AppBtn.dart';
@@ -122,7 +121,6 @@ class _HomePageState extends State<HomePage>
         ),
       ),
     );
-
     WidgetsBinding.instance!.addPostFrameCallback((_) => _animateSlider());
   }
 
@@ -145,8 +143,8 @@ class _HomePageState extends State<HomePage>
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: _slider(),
                     ),
-                    // _section(),
-                    _seller()
+                    _section(),
+                    // _seller()
                   ],
                 ),
               ),
@@ -840,10 +838,11 @@ class _HomePageState extends State<HomePage>
                     highlightColor: Theme.of(context).colorScheme.simmerHigh,
                     child: catLoading()))
             : Container(
-                height: 120,
-                padding: const EdgeInsets.only(top: 10, left: 10),
+          alignment: Alignment.center,
+                height: 150,
+                padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
                 child: ListView.builder(
-                  itemCount: catList.length < 10 ? catList.length : 10,
+                  itemCount: catList.length >= 3 ? catList.length : 3,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   physics: AlwaysScrollableScrollPhysics(),
@@ -855,55 +854,58 @@ class _HomePageState extends State<HomePage>
                         padding: const EdgeInsetsDirectional.only(end: 10),
                         child: GestureDetector(
                           onTap: () async {
-                            // if (catList[index].subList == null ||
-                            //     catList[index].subList!.length == 0) {
-                            //   await Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //         builder: (context) => ProductList(
-                            //           name: catList[index].name,
-                            //           id: catList[index].id,
-                            //           tag: false,
-                            //           fromSeller: false,
-                            //         ),
-                            //       ));
-                            // } else {
-                            //   await Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //         builder: (context) => SubCategory(
-                            //           title: catList[index].name!,
-                            //           subList: catList[index].subList,
-                            //         ),
-                            //       ));
-                            // }
+                            if (catList[index].subList == null ||
+                                catList[index].subList!.length == 0) {
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProductList(
+                                      name: catList[index].name,
+                                      id: catList[index].id,
+                                      tag: false,
+                                      fromSeller: false,
+                                    ),
+                                  ));
+                            } else {
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SubCategory(
+                                      catId: catList[index].id,
+                                      // sellerId: catList[index].seller_id,
+                                      title: catList[index].name!,
+                                      sellerData: catList[index].subList,
+                                    ),
+                                  ));
+                            }
 
-                            Navigator.push(
+                           /* Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => SellerList(
                                           catId: catList[index].id,
                                           catName: catList[index].name,
                                           subId: catList[index].subList,
-                                          getByLocation: false,
-                                        )));
+                                      getByLocation: false,
+                                        )));*/
+
                           },
-                          child: Column(
+                          child: catList.isEmpty ? Image.asset("assets/images/placeholder.png") : Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Padding(
+                             catList.isEmpty   ? SizedBox.shrink() :  Padding(
                                 padding: const EdgeInsetsDirectional.only(
                                     bottom: 5.0),
                                 child: new ClipRRect(
-                                  borderRadius: BorderRadius.circular(35.0),
+                                  borderRadius: BorderRadius.circular(20.0),
                                   child: new FadeInImage(
                                     fadeInDuration: Duration(milliseconds: 150),
                                     image: CachedNetworkImageProvider(
                                       catList[index].image!,
                                     ),
-                                    height: 70.0,
-                                    width: 70.0,
+                                    height: 100.0,
+                                    width: 100.0,
                                     fit: BoxFit.cover,
                                     imageErrorBuilder:
                                         (context, error, stackTrace) =>
@@ -912,6 +914,7 @@ class _HomePageState extends State<HomePage>
                                   ),
                                 ),
                               ),
+
                               Container(
                                 child: Text(
                                   catList[index].name!,
@@ -921,7 +924,7 @@ class _HomePageState extends State<HomePage>
                                       .copyWith(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .fontColor,
+                                              .secondary,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 12),
                                   overflow: TextOverflow.ellipsis,
@@ -963,7 +966,7 @@ class _HomePageState extends State<HomePage>
       getSlider();
       getCat();
       getSeller();
-      // getSection();
+      getSection();
       getOfferImages();
     } else {
       if (mounted)
@@ -1868,8 +1871,6 @@ class _HomePageState extends State<HomePage>
                                 //               storeDesc: sellerList[index]
                                 //                   .store_description,
                                 //             )));
-
-
                                 sellerList[index].open_close_status == "1"?
                                 Navigator.push(
                                     context,

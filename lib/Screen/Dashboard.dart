@@ -186,25 +186,27 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
         }
         return true;
       },
-      child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.lightWhite,
-        appBar: _getAppBar(),
-        body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _tabController,
-          children: [
-            HomePage(),
-            AllCategory(),
-            Sale(),
-            Cart(
-              fromBottom: true,
-            ),
-            MyProfile(),
-          ],
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.lightWhite,
+          appBar: _getAppBar(),
+          body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: _tabController,
+            children: [
+              HomePage(),
+              AllCategory(),
+              Sale(),
+              Cart(
+                fromBottom: true,
+              ),
+              MyProfile(),
+            ],
+          ),
+          //fragments[_selBottom],
+          // bottomNavigationBar: _getBottomBar(),
+          bottomNavigationBar: _getBottomNavigator(),
         ),
-        //fragments[_selBottom],
-        // bottomNavigationBar: _getBottomBar(),
-        bottomNavigationBar: _getBottomNavigator(),
       ),
     );
   }
@@ -230,7 +232,7 @@ class _HomePageState extends State<Dashboard> with TickerProviderStateMixin {
               //   width: 200,
               height: 40,
 
-              color: colors.primary,
+              // color: colors.primary,
               // width: 45,
             )
           : Text(

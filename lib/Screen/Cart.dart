@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eshop_multivendor/Helper/Constant.dart';
 import 'package:eshop_multivendor/Helper/Session.dart';
@@ -16,7 +15,6 @@ import 'package:http/http.dart';
 import 'package:paytm/paytm.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-
 import '../Helper/AppBtn.dart';
 import '../Helper/Color.dart';
 import '../Helper/SimBtn.dart';
@@ -1603,6 +1601,8 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
             else
               delCharge = 0;
           }
+          totalPrice = 0;
+
           totalPrice = delCharge + oriPrice;
 
           if (isPromoValid!) {
@@ -1697,6 +1697,8 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
               else
                 delCharge = 0;
             }
+            totalPrice = 0;
+
             totalPrice = delCharge + oriPrice;
 
             if (isPromoValid!) {
@@ -2484,8 +2486,7 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                                   size: 0.4,
                                   title: getTranslated(
                                       context, 'PLACE_ORDER'),
-                                  onBtnSelected: _placeOrder
-                                      ? () {
+                                  onBtnSelected: _placeOrder ? () {
                                     checkoutState!(() {
                                       _placeOrder = false;
                                     });
@@ -2574,7 +2575,8 @@ class StateCart extends State<Cart> with TickerProviderStateMixin {
                                     } else
                                       confirmDialog();
                                   }
-                                      : null)
+                                      : null
+                              )
                               //}),
                             ]),
                           ),

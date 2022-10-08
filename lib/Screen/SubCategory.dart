@@ -9,11 +9,16 @@ import 'package:eshop_multivendor/Helper/String.dart';
 import 'package:eshop_multivendor/Model/Section_Model.dart';
 import 'package:eshop_multivendor/Model/response_recomndet_products.dart';
 import 'package:eshop_multivendor/Provider/FavoriteProvider.dart';
+import 'package:eshop_multivendor/Provider/HomeProvider.dart';
+import 'package:eshop_multivendor/Provider/UserProvider.dart';
 import 'package:eshop_multivendor/Screen/Login.dart';
+import 'package:eshop_multivendor/Screen/ProductList.dart';
 import 'package:eshop_multivendor/Screen/Product_Detail.dart';
 import 'package:eshop_multivendor/Screen/Seller_Details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'Add_Address.dart';
 
 class SubCategory extends StatefulWidget {
   final String title;
@@ -26,7 +31,7 @@ class SubCategory extends StatefulWidget {
       required this.title,
       this.sellerId,
       this.sellerData,
-      this.catId})
+      this.catId, String? catName, List<Product>? subId})
       : super(key: key);
 
   @override
@@ -50,10 +55,45 @@ class _SubCategoryState extends State<SubCategory> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getSeller();
     print(widget.catId);
     print(widget.sellerId);
     getSubCategory(widget.sellerId, widget.catId);
-    getRecommended(widget.sellerId);
+    // getRecommended(widget.sellerId);
+    getRecommended(widget.catId);
+  }
+
+  void getSeller() {
+    String pin = context.read<UserProvider>().curPincode;
+    Map parameter = {"lat": "$latitude", "lang": "$longitude"};
+    print(parameter);
+    // if (pin != '') {
+    //   parameter = {
+    //     "lat":"$latitude",
+    //     "lang":"$longitude"
+    //   };
+    //   print(latitude);
+    //   print(longitude);
+    // }
+
+    apiBaseHelper.postAPICall(getSellerApi, parameter).then((getdata) {
+      bool error = getdata["error"];
+      String? msg = getdata["message"];
+      if (!error) {
+        var data = getdata["data"];
+
+        sellerList =
+            (data as List).map((data) => new Product.fromSeller(data)).toList();
+        setState(() {});
+      } else {
+        setSnackbar(msg!, context);
+      }
+
+      context.read<HomeProvider>().setSellerLoading(false);
+    }, onError: (error) {
+      setSnackbar(error.toString(), context);
+      context.read<HomeProvider>().setSellerLoading(false);
+    });
   }
 
   @override
@@ -200,7 +240,6 @@ class _SubCategoryState extends State<SubCategory> {
                       ],
                     ),
                   );
-
                   // new
                 }),
             // InkWell(
@@ -230,15 +269,26 @@ class _SubCategoryState extends State<SubCategory> {
                         itemBuilder: (BuildContext context, int index) {
                           return Card(
                             child: ListTile(
-                              onTap: () {
-                                Navigator.push(
+                              onTap: () async {
+                                /*Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProductList(
+                                        name: widget.title,
+                                        id: widget.catId,
+                                        tag: false,
+                                        fromSeller: false,
+                                      ),
+                                    )
+                                );*/
+                                await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => SellerProfile(
-                                          search: false,
-                                              sellerID: widget.sellerId,
+                                              search: false,
+                                              sellerID: sellerList[0].seller_id,
                                               subCatId: subCatData[index]["id"],
-                                              sellerData: widget.sellerData,
+                                              sellerData: sellerList[0],
                                             )));
                               },
                               leading: CircleAvatar(
@@ -260,12 +310,12 @@ class _SubCategoryState extends State<SubCategory> {
   }
 
   getSubCategory(sellerId, catId) async {
-    var parm = {};
-    if (catId != null) {
-      parm = {"seller_id": "$sellerId", "cat_id": "$catId"};
-    } else {
-      parm = {"seller_id": "$sellerId"};
-    }
+    var parm = {"cat_id": "$catId"};
+    // if (catId != null) {
+    //   parm = {"seller_id": "$sellerId", "cat_id": "$catId"};
+    // } else {
+    //   parm = {"seller_id": "$sellerId"};
+    // }
 
     apiBaseHelper.postAPICall(getSubCatBySellerId, parm).then((value) {
       setState(() {
@@ -276,10 +326,10 @@ class _SubCategoryState extends State<SubCategory> {
     });
   }
 
-  getRecommended(sellerId) async {
+  getRecommended(catId) async {
     // var parm = {"seller_id": "$sellerId"};
     // try {
-    var parm = {"seller_id": sellerId};
+    var parm = {"cat_id": catId};
     print(parm);
     var data = await apiBaseHelper.postAPINew(recommendedProductapi, parm);
     newData = data;

@@ -60,7 +60,8 @@ class _SellerListState extends State<SellerList> {
                               sellerId: sellerLists[index].seller_id.toString(),
                               sellerData: sellerLists[index],
                               catId: widget.catId,
-                            ))):showToast("Store Closed");
+                            )
+                    )):showToast("Store Closed");
 
                 // if (widget.subId == null) {
                 //   await Navigator.push(

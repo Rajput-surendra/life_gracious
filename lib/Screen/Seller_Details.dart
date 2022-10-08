@@ -5,6 +5,13 @@ import 'package:eshop_multivendor/Helper/Session.dart';
 import 'package:eshop_multivendor/Screen/ProductList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
+
+import '../Helper/String.dart';
+import '../Model/Section_Model.dart';
+import '../Provider/HomeProvider.dart';
+import '../Provider/UserProvider.dart';
+import 'Add_Address.dart';
 
 class SellerProfile extends StatefulWidget {
   final String? sellerID,
@@ -31,6 +38,8 @@ class SellerProfile extends StatefulWidget {
   State<SellerProfile> createState() => _SellerProfileState();
 }
 
+List<Product> sellerList = [];
+
 class _SellerProfileState extends State<SellerProfile>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   ApiBaseHelper apiBaseHelper = ApiBaseHelper();
@@ -39,12 +48,44 @@ class _SellerProfileState extends State<SellerProfile>
 
   bool isDescriptionVisible = false;
 
-
-
   @override
   void initState() {
     super.initState();
+    // getSeller();
     _tabController = TabController(vsync: this, length: 2);
+  }
+
+  void getSeller() {
+    String pin = context.read<UserProvider>().curPincode;
+    Map parameter = {"lat": "$latitude", "lang": "$longitude"};
+    print(parameter);
+    // if (pin != '') {
+    //   parameter = {
+    //     "lat":"$latitude",
+    //     "lang":"$longitude"
+    //   };
+    //   print(latitude);
+    //   print(longitude);
+    // }
+
+    apiBaseHelper.postAPICall(getSellerApi, parameter).then((getdata) {
+      bool error = getdata["error"];
+      String? msg = getdata["message"];
+      if (!error) {
+        var data = getdata["data"];
+
+        sellerList =
+            (data as List).map((data) => new Product.fromSeller(data)).toList();
+        setState(() {});
+      } else {
+        setSnackbar(msg!, context);
+      }
+
+      context.read<HomeProvider>().setSellerLoading(false);
+    }, onError: (error) {
+      setSnackbar(error.toString(), context);
+      context.read<HomeProvider>().setSellerLoading(false);
+    });
   }
 
   @override
@@ -52,15 +93,17 @@ class _SellerProfileState extends State<SellerProfile>
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: widget.search?
         Text("${widget.sellerName}" , style: TextStyle(color: Colors.white),):
-        Text("${widget.sellerData.store_name}" , style: TextStyle(color: Colors.white),),
+        Text("${widget.sellerData.store_name}" , style: TextStyle(color: Color(0xffBFA16F)),),
       ),
       body: Material(
         child:
         Column(
           children: [
-            widget.search?Container(
+            widget.search?
+            Container(
               child: Card(
                 shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),

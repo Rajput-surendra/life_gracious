@@ -44,7 +44,7 @@ class _SplashScreen extends State<Splash> {
         children: <Widget>[
           Image.asset(
             'assets/images/doodle.png',
-            color: colors.primary,
+            color: Colors.white,
             fit: BoxFit.fill,
             width: double.infinity,
             height: double.infinity,
@@ -54,9 +54,10 @@ class _SplashScreen extends State<Splash> {
             height: double.infinity,
             color: Colors.transparent,
             child: Center(
-
               child: Image.asset(
-                'assets/app_logo.jpeg',
+                'assets/images/splash.png',
+                height: 250,
+                width: 250,
               ),
             ),
           ),
